@@ -1,0 +1,46 @@
+name: Tests, Lint, Coverage
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-lint-coverage:
+    runs-on: ubuntu-latest
+    
+    # We'll test across multiple Python versions
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9, 3.10, 3.11]
+
+    steps:
+      # Step 1: Check out your code
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up the specified Python version
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          # Assumes your requirements.txt includes pytest, pytest-cov, pylint, etc.
+          pip install -r requirements.txt
+          # If not in your requirements.txt, install them directly:
+          # pip install pytest pytest-cov pylint
+
+      # Step 4: Run tests with coverage
+      - name: Run tests (Coverage >= 95%)
+        run: |
+          pytest --cov=app/ --cov-report=term-missing --cov-fail-under=95
+
+      # Step 5: Run pylint (Score == 10.0)
+      - name: Run lint (Pylint must be 10/10)
+        run: |
+          pylint my_module tests --fail-under=10
