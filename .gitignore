@@ -3,3 +3,4 @@ Notes.txt
 /tests/__pycache__/
 /app/__pycache__/
 My_doubts_and_answers.txt
+.coverage
