@@ -13,7 +13,7 @@ jobs:
     # We'll test across multiple Python versions
     strategy:
       matrix:
-        python-version: ['3.9', '3.10','3.11','3.12']
+        python-version: ['3.9',3.10','3.11','3.12']
 
     steps:
       # Step 1: Check out your code
